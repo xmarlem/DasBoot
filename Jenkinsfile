@@ -17,15 +17,15 @@ node {
 
     }
 
-    stage('Test Results') {
+    stage('Archive test results') {
         junit '**/target/surefire-reports/TEST-*.xml'
         archive 'target/*.jar'
     }
 
-    stage('Build') {
+    stage('Build application') {
         // Run the maven build
         if (isUnix()) {
-            sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+            sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore -Dspring.profiles.active=dev clean package"
         } else {
             bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
         }
@@ -35,7 +35,7 @@ node {
         app = docker.build("xmarlem/das-boot:${env.BUILD_ID}")
     }
 
-    stage('Push image') {
+    stage('Push image to Docker HUB') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
