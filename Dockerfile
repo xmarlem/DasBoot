@@ -11,4 +11,4 @@ ADD ${JAR_FILE} das-boot-0.0.1-SNAPSHOT.jar
 EXPOSE 8080
 
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=",  "-jar","/das-boot-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=dev",  "-jar","/das-boot-0.0.1-SNAPSHOT.jar"]
