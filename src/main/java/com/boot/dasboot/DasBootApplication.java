@@ -8,6 +8,5 @@ public class DasBootApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DasBootApplication.class, args);
-		//this is a comment
 	}
 }
