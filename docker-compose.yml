@@ -5,7 +5,7 @@ services:
     build: .
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-    command: dockerize -wait tcp://app:8080 -timeout 240s mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
+    command: dockerize -wait tcp://app:8080 -timeout 240s /usr/bin/mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
   app:
     #image: xmarlem/das-boot:latest
     build:
