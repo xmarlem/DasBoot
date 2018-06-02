@@ -3,9 +3,9 @@ version: '3.6'
 services:
   test:
     build: .
-    command: dockerize -wait tcp://app:8080 -timeout 240s /usr/share/maven/bin/mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
-    depends_on:
-      - app
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    command: dockerize -wait tcp://app:8080 -timeout 240s mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
   app:
     #image: xmarlem/das-boot:latest
     build:
