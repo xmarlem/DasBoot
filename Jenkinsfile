@@ -25,9 +25,9 @@ node {
     stage('Build application') {
         // Run the maven build
         if (isUnix()) {
-            sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore -Dspring.profiles.active=dev clean package"
+            sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore -Dmaven.test.skip=true -Dspring.profiles.active=dev clean package"
         } else {
-            bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+            bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore -Dmaven.test.skip=true -Dspring.profiles.active=dev clean package/)
         }
     }
 
