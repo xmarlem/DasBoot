@@ -32,7 +32,7 @@ public class SeleniumContainerTest {
         RemoteWebDriver driver = chrome.getWebDriver();
 
 //        driver.get("https://wikipedia.org");
-        driver.get("http://192.168.99.101:8080");
+        driver.get("http://192.168.99.102:8080");
 
         checkPageIsReady(driver);
         WebElement element = driver.findElementByXPath("//*[@id=\"navbar\"]/ul/li[2]/a");
