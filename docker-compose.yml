@@ -1,11 +1,11 @@
 version: '3.6'
 
 services:
-  test:
-    build: .
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    command: dockerize -wait tcp://app:8080 -timeout 240s /usr/bin/mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
+#  test:
+#    build: .
+#    volumes:
+#      - "/var/run/docker.sock:/var/run/docker.sock"
+#    command: dockerize -wait tcp://app:8080 -timeout 240s /usr/bin/mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
   app:
     #image: xmarlem/das-boot:latest
     build:
@@ -19,7 +19,7 @@ services:
 #      - db
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-    command: dockerize -wait tcp://db:5432 java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=$ENVIRONMENT -jar /das-boot-0.0.1-SNAPSHOT.jar
+    command: dockerize -wait tcp://db:5432 java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=test -jar /das-boot-0.0.1-SNAPSHOT.jar
   db:
     image: xmarlem/docker-postgres
     ports:
