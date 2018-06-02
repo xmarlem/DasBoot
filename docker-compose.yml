@@ -7,9 +7,9 @@ services:
       dockerfile: Dockerfile
     volumes:
       - $PWD/target/surefire-reports:/app/target/surefire-reports
-      - ${M3_HOME}/bin/mvn:/usr/bin/mvn
+      - ${M3_HOME}/bin/mvn:/mvn
       - "/var/run/docker.sock:/var/run/docker.sock"
-    command: dockerize -wait tcp://app:8080 -timeout 240s /usr/bin/mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
+    command: dockerize -wait tcp://app:8080 -timeout 240s mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
   app:
     #image: xmarlem/das-boot:latest
     build:
