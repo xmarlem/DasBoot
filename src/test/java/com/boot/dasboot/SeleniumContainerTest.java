@@ -52,11 +52,11 @@ public class SeleniumContainerTest {
         checkPageIsReady(driver);
 
 
-        boolean expected = driver.findElementsByCssSelector("td")
-                .stream()
-                .anyMatch(elem -> elem.getText().contains("Titanic"));
+//        boolean expected = driver.findElementsByCssSelector("td")
+//                .stream()
+//                .anyMatch(elem -> elem.getText().contains("Titanic"));
 
-        assertTrue("A new shipwreck called 'Santa Maria' has been added with success!", expected);
+//        assertTrue("A new shipwreck called 'Santa Maria' has been added with success!", expected);
 
         WebElement addLink = driver.findElementById("addShipwreck");
         JavascriptExecutor executor = (JavascriptExecutor) driver;
@@ -83,7 +83,7 @@ public class SeleniumContainerTest {
                 assertTrue("A new shipwreck called 'Santa Maria' has been added with success!", expectedTextFound);
 
 
-        driver.get("https://googl.com");
+        driver.get("https://google.com");
 
     }
 
