@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM openjdk:8-jdk
 
 
 RUN apt-get update && apt-get install -y wget
@@ -13,7 +13,7 @@ RUN apt-get install -y maven
 # Add a volume pointing to /tmp
 VOLUME /tmp
 
-#COPY . .
+COPY . .
 #COPY start_application.sh start_application.sh
 #COPY start_automation_testing.sh start_automation_testing.sh
 #COPY wrapper_script.sh wrapper_script.sh
@@ -30,6 +30,6 @@ EXPOSE 8080
 
 #ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=test",  "-jar","/das-boot-0.0.1-SNAPSHOT.jar"]
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=${ENVIRONMENT}", "-jar","/das-boot-0.0.1-SNAPSHOT.jar"]
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=${ENVIRONMENT}", "-jar","/das-boot-0.0.1-SNAPSHOT.jar"]
 
 #ENTRYPOINT ["./start.sh"]

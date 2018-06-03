@@ -1,6 +1,7 @@
 package com.boot.dasboot;
 
 
+import com.boot.dasboot.model.Shipwreck;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,16 +28,27 @@ public class ShipwreckControllerWebIntegrationTest {
 
     @Test
     public void testListAll() throws Exception {
+        String url = "/api/v1/shipwrecks";
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        //POST of a new record
+        Shipwreck s = new Shipwreck();
+        s.setName("Santa Maria");
+        s.setDescription("A very old ship!");
+        HttpEntity<Shipwreck> request = new HttpEntity<>(s);
+
+        Shipwreck responsePost = this.testRestTemplate.postForObject(url, request, Shipwreck.class);
+        Assert.assertThat(responsePost.getName(), is("Santa Maria"));
+
 
         ResponseEntity<String> response = this.testRestTemplate.getForEntity("/api/v1/shipwrecks", String.class);
         Assert.assertThat(response.getStatusCode(), is(HttpStatus.OK));
 
-        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response.getBody());
 
         Assert.assertThat(jsonNode.isMissingNode(), is(false));
         Assert.assertThat(jsonNode.toString(), isA(String.class));
 
-        Assert.assertThat(jsonNode.size(), greaterThanOrEqualTo(1));
+        Assert.assertThat(jsonNode.size(), greaterThanOrEqualTo(0));
     }
 }
