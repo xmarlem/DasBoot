@@ -1,4 +1,4 @@
-version: '3.6'
+version: '2.0'
 
 services:
 #  test:
@@ -11,6 +11,24 @@ services:
 ##      - ${M3_HOME}/bin:/usr/local/bin
 #      - "/var/run/docker.sock:/var/run/docker.sock"
 #    command: dockerize -wait tcp://app:8080 -timeout 240s mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test
+
+#  tests:
+#    #image: maven:3
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    stop_signal: SIGKILL
+#    stdin_open: true
+#    tty: true
+#    working_dir: $PWD
+#    volumes:
+#      - $PWD:$PWD
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      # Maven cache (optional)
+#      - ~/.m2:/root/.m2
+#    command:
+#      dockerize -wait tcp://app:8080 -timeout 300s mvn -Dtest=SeleniumContainerTest test
+
   app:
     #image: xmarlem/das-boot:latest
     build:
@@ -20,17 +38,26 @@ services:
       - "8080:8080"
     environment:
       - "ENVIRONMENT=test"
-    depends_on:
-      - db
+    links:
+      - db:db
+#    depends_on:
+#      - db
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "~/.m2/:/root/.m2/"
+      #- "$PWD:$PWD"
+    #command: dockerize -wait tcp://db:5432 java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=test -jar /das-boot-0.0.1-SNAPSHOT.jar
+    #command: java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=test -jar /das-boot-0.0.1-SNAPSHOT.jar
+    #        && dockerize -wait tcp://app:8080 -timeout 240s mvn -Dtest=SeleniumContainerTest.java -Dspring.profiles.active=test test "
+    #command: bash -c ./wrapper_script.sh
     command: dockerize -wait tcp://db:5432 java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=test -jar /das-boot-0.0.1-SNAPSHOT.jar
+
   db:
     image: xmarlem/docker-postgres
     ports:
       - "5432:5432"
-    expose:
-      - "5432"
+    #expose:
+    #  - "5432"
     restart: always
     environment:
       - POSTGRES_USER=postgres
