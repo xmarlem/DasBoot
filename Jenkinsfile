@@ -5,19 +5,18 @@ node {
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
         git 'https://github.com/xmarlem/DasBoot.git'
+
         // Get the Maven tool.
         // ** NOTE: This 'M3' Maven tool must be configured
         // **       in the global configuration.
         mvnHome = tool 'M3'
-        //dockerHome = tool 'Docker'
     }
 
-    stage('Test'){
+    stage('Unit Testing'){
         sh "'${mvnHome}/bin/mvn' -Dtest=DasBootApplicationTests test"
-
     }
 
-    stage('Archive test results') {
+    stage('Archive UT results') {
         junit '**/target/surefire-reports/TEST-*.xml'
         archive 'target/*.jar'
     }
@@ -29,6 +28,14 @@ node {
         } else {
             bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore -Dmaven.test.skip=true -Dspring.profiles.active=dev clean package/)
         }
+    }
+
+    stage('Web Integration Testing-> run DB'){
+        sh 'docker-compose up db &'
+    }
+
+    stage('Web Integration Testing-> run Test') {
+        sh "dockerize -wait tcp://192.168.99.102:5432 -timeout 240s '${mvnHome}/bin/mvn' -Dtest=ShipwreckControllerWebIntegrationTest -Dspring.profiles.active=test test"
     }
 
     stage('Build Docker Image'){
