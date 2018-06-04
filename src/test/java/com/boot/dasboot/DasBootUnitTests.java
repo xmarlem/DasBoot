@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
-public class DasBootApplicationTests {
+public class DasBootUnitTests {
 	@Test
 	public void contextLoads() {
 		HomeController hc = new HomeController();

@@ -47,23 +47,6 @@ public class SeleniumContainerTest {
                     .withExposedService("db", 5432, Wait.forListeningPort())
                     .withExposedService("app", 8080, Wait.forListeningPort());
 
-//    @ClassRule
-//    public static PostgreSQLContainer postgreSql = new PostgreSQLContainer()
-//            .withUsername("postgres")
-//            .withPassword("postgres@123")
-//            .withDatabaseName("dasboot")
-//            .withStartupTimeout(Duration.ofSeconds(600);
-
-
-
-//
-//    @ClassRule
-//    public static GenericContainer springBootApp = new GenericContainer("openjdk:8-jdk-alpine")
-//            //.withEnv("JAVA_OPTS", "-Djava.security.egd=file:/dev/./urandom ")
-//            .waitingFor(Wait.forListeningPort())
-//            .withEnv("JAVA_OPTS", "-Dspring.profiles.active=")
-//            .withExposedPorts(8080);
-
     @Test
     public void simplePlainSeleniumTest() {
         //INIT

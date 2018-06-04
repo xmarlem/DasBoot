@@ -13,12 +13,11 @@ node {
     }
 
     stage('Unit Testing'){
-        sh "'${mvnHome}/bin/mvn' -Dtest=DasBootApplicationTests test"
+        sh "'${mvnHome}/bin/mvn' -Dtest=DasBootUnitTests test"
     }
 
     stage('Archive UT results') {
         junit '**/target/surefire-reports/TEST-*.xml'
-        archive 'target/*.jar'
     }
 
     stage('Build application') {
@@ -30,16 +29,20 @@ node {
         }
     }
 
-    stage('Web Integration Testing-> run DB'){
+    stage('Web Int. Testing-> run App Stack'){
         sh 'docker-compose up db &'
     }
 
-    stage('Web Integration Testing-> run Test') {
+    stage('Web Int. Testing-> run Test') {
         sh "dockerize -wait tcp://192.168.99.102:5432 -timeout 240s '${mvnHome}/bin/mvn' -Dtest=ShipwreckControllerWebIntegrationTest -Dspring.profiles.active=test test"
     }
 
     stage('Build Docker Image'){
         app = docker.build("xmarlem/das-boot:${env.BUILD_ID}")
+    }
+
+    stage("Archive Artifacts"){
+        archive 'target/*.jar'
     }
 
     stage('Push image to Docker HUB') {
