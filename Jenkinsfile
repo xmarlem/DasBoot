@@ -29,12 +29,16 @@ node {
         }
     }
 
-    stage('Web Int. Testing-> run App Stack'){
+    stage('Web Int. Pre-Testing-> Run App Stack'){
         sh 'docker-compose up db &'
     }
 
     stage('Web Int. Testing-> run Test') {
         sh "dockerize -wait tcp://192.168.99.102:5432 -timeout 240s '${mvnHome}/bin/mvn' -Dtest=ShipwreckControllerWebIntegrationTest -Dspring.profiles.active=test test"
+    }
+
+    stage('Web Int. Post-Testing-> Stop App Stack'){
+        sh 'docker-compose down &'
     }
 
     stage('Build Docker Image'){
