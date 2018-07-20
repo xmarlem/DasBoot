@@ -11,7 +11,7 @@ public class Shipwreck {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	String name;
+	  String name;
 	String description;
 	String condition;
 	Integer depth;
